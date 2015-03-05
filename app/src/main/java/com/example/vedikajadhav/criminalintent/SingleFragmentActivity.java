@@ -1,5 +1,6 @@
 package com.example.vedikajadhav.criminalintent;
 
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
-      /*  if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+       /* if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
           //  android.support.v7.app.ActionBar actionBar = getSupportActionBar();
             android.app.ActionBar actionBar = getActionBar();
             actionBar.setSubtitle(R.string.actionBar_subtitle);
