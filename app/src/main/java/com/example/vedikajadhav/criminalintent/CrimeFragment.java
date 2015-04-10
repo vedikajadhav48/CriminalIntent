@@ -2,6 +2,7 @@ package com.example.vedikajadhav.criminalintent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +47,12 @@ public class CrimeFragment extends Fragment {
         UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
 
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
+
+        /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            getActivity().getActionBar().setDisplayShowHomeEnabled(true);
+           // getActivity().getActionBar().setLogo(R.drawable.ic_launcher);
+            getActivity().getActionBar().setDisplayUseLogoEnabled(true);
+        }*/
     }
 
     @Override
