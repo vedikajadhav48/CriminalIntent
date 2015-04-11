@@ -15,6 +15,9 @@ public abstract class SingleFragmentActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
        /* if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
           //  android.support.v7.app.ActionBar actionBar = getSupportActionBar();

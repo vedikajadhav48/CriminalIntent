@@ -1,6 +1,7 @@
 package com.example.vedikajadhav.criminalintent;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -9,18 +10,22 @@ import java.util.UUID;
  * Created by Vedika Jadhav on 2/15/2015.
  */
 public class CrimeLab {
+    private static final String TAG = "CrimeLab";
     private ArrayList<Crime> mCrimes;
     private static CrimeLab sCrimeLab;
+    private static final String FILENAME = "crimes.json";
     private Context mAppContext;
+    private CriminalIntentJSONSerializer mSerializer;
 
     private CrimeLab(Context appContext) {
         mAppContext = appContext;
-        mCrimes = new ArrayList<Crime>();
-        for (int i = 0; i < 10; i++) {
-            Crime c = new Crime();
-            c.setTitle("Crime #" + i);
-            c.setSolved(i % 2 == 0); // Every other one
-            mCrimes.add(c);
+        mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
+        //mCrimes = new ArrayList<Crime>();
+        try{
+            mCrimes = mSerializer.loadCrimes();
+        }catch (Exception e){
+            mCrimes = new ArrayList<Crime>();
+            Log.e(TAG, "Error Loading Crimes: ", e);
         }
     }
 
@@ -41,6 +46,22 @@ public class CrimeLab {
                 return c;
         }
         return null;
+    }
+
+    public void addCrime(Crime c){
+        mCrimes.add(c);
+    }
+
+    public boolean saveCrimes(){
+        try{
+            mSerializer.saveCrimes(mCrimes);
+            Log.d(TAG, "Crimes saved to a file");
+            return true;
+        }catch (Exception e){
+           // e.printStackTrace();
+            Log.e(TAG, "Error saving Crimes: ", e);
+            return false;
+        }
     }
 
 

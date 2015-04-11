@@ -7,17 +7,23 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends ActionBarActivity {
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
@@ -42,6 +48,7 @@ public class CrimePagerActivity extends FragmentActivity {
         for (int i=0; i<mCrimes.size(); i++){
             if(mCrimes.get(i).getId().equals(crimeId)){
                 mViewPager.setCurrentItem(i);
+                setTitle(mCrimes.get(i).getTitle());
                 break;
             }
         }

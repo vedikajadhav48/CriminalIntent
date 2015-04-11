@@ -31,6 +31,11 @@ public class CrimeListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        //getActivity().getActionBar().setDisplayUseLogoEnabled(true);
+        /*if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            getActivity().getActionBar().setLogo(R.drawable.ic_launcher);
+        }*/
         getActivity().setTitle(R.string.crimes_title);
         mCrimes = CrimeLab.get(getActivity()).getCrimes();
 
@@ -69,7 +74,17 @@ public class CrimeListFragment extends ListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch(item.getItemId()){
+            case R.id.menu_item_new_crime:
+                Crime crime = new Crime();
+                CrimeLab.get(getActivity()).addCrime(crime);
+                Intent i = new Intent(getActivity(), CrimePagerActivity.class);
+                i.putExtra(CrimeFragment.EXTRA_CRIME_ID, crime.getId());
+                startActivityForResult(i,0);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     //InnerClass

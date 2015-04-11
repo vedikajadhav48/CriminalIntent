@@ -1,14 +1,17 @@
 package com.example.vedikajadhav.criminalintent;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +46,7 @@ public class CrimeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
        // mCrime = new Crime();
         UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
 
@@ -54,6 +58,7 @@ public class CrimeFragment extends Fragment {
             getActivity().getActionBar().setDisplayUseLogoEnabled(true);
         }*/
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
@@ -118,5 +123,24 @@ public class CrimeFragment extends Fragment {
 
     public void updateDate(){
         mDateButton.setText(mCrime.getDate().toString());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                if (NavUtils.getParentActivityName(getActivity()) != null) {
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        CrimeLab.get(getActivity()).saveCrimes();
     }
 }
