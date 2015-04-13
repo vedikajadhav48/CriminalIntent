@@ -14,10 +14,12 @@ public class Crime {
     private static final String JSON_TITLE = "title";
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
+    private static final String JSON_SUSPECT = "suspect";
     private UUID mId;
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private String mSuspect;
 
     public UUID getId() {
         return mId;
@@ -47,11 +49,21 @@ public class Crime {
         mDate = date;
     }
 
+    public String getSuspect() {
+        return mSuspect;
+    }
+
+    public void setSuspect(String suspect) {
+        mSuspect = suspect;
+    }
+
     public Crime(JSONObject json) throws JSONException {
         mId = UUID.fromString(json.getString(JSON_ID));
         mTitle = json.getString(JSON_TITLE);
         mSolved = json.getBoolean(JSON_SOLVED);
         mDate = new Date(json.getLong(JSON_DATE));
+        if(json.has(JSON_SUSPECT))
+            mSuspect = json.getString(JSON_SUSPECT);
     }
 
     public Crime(){
@@ -71,6 +83,9 @@ public class Crime {
         json.put(JSON_TITLE, mTitle);
         json.put(JSON_SOLVED, mSolved);
         json.put(JSON_DATE, mDate.getTime());
+        if(mSuspect != null){
+            json.put(JSON_SUSPECT, mSuspect);
+        }
         return json;
     }
 }
