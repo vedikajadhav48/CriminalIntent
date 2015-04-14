@@ -12,7 +12,7 @@ import android.support.v7.app.ActionBarActivity;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class CrimePagerActivity extends ActionBarActivity {
+public class CrimePagerActivity extends ActionBarActivity implements CrimeFragment.Callbacks {
     private ViewPager mViewPager;
     private ArrayList<Crime> mCrimes;
 
@@ -74,5 +74,10 @@ public class CrimePagerActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+
     }
 }

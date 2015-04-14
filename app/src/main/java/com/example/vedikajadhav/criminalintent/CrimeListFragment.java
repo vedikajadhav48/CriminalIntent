@@ -200,6 +200,10 @@ public class CrimeListFragment extends ListFragment {
         return super.onContextItemSelected(item);
     }
 
+    public void updateUI() {
+        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
     //Required Interface for hosting activities
     public interface Callbacks{
         void onCrimeSelected(Crime crime);

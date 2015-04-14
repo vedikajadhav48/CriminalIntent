@@ -43,6 +43,12 @@ public class CrimeFragment extends Fragment {
     private static final String DIALOG_DATE = "date";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
+    private Callbacks mCallbacks;
+
+    //required interface for hosting activities
+    public interface Callbacks{
+        void onCrimeUpdated(Crime crime);
+    }
 
     public static CrimeFragment newInstance(UUID crimeId){
         Bundle args = new Bundle();
@@ -81,6 +87,8 @@ public class CrimeFragment extends Fragment {
             public void onTextChanged(
                     CharSequence c, int start, int before, int count) {
                 mCrime.setTitle(c.toString());
+                mCallbacks.onCrimeUpdated(mCrime);
+               // getActivity().setTitle(mCrime.getTitle());
             }
             public void beforeTextChanged(
                     CharSequence c, int start, int count, int after) {
@@ -112,6 +120,7 @@ public class CrimeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // Set the crime's solved property
                 mCrime.setSolved(isChecked);
+                mCallbacks.onCrimeUpdated(mCrime);
             }
         });
 
@@ -159,6 +168,7 @@ public class CrimeFragment extends Fragment {
             Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
             //mDateButton.setText(mCrime.getDate().toString());
+            mCallbacks.onCrimeUpdated(mCrime);
             updateDate();
         }else if (requestCode == REQUEST_CONTACT){
             Uri contactUri = data.getData();
@@ -179,6 +189,7 @@ public class CrimeFragment extends Fragment {
             c.moveToFirst();
             String suspect = c.getString(0);
             mCrime.setSuspect(suspect);
+            mCallbacks.onCrimeUpdated(mCrime);
             mSuspectButton.setText(suspect);
             c.close();
         }
@@ -205,6 +216,18 @@ public class CrimeFragment extends Fragment {
     public void onPause(){
         super.onPause();
         CrimeLab.get(getActivity()).saveCrimes();
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        mCallbacks = (Callbacks)activity;
+    }
+
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        mCallbacks = null;
     }
 
     //creating a template crime report
